@@ -2,6 +2,8 @@ import React from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import ActivityCard from './ActivityCard';
 
+import RowerAnimation from './RowerAnimation';
+
 // Временные заглушки
 const DressMeUp: React.FC = () => <div>👕 Интерактив: Одень туриста</div>;
 const RouteBuilder: React.FC = () => <div>🗺️ Интерактив: Построй маршрут</div>;
@@ -26,8 +28,8 @@ const activitiesData: ActivityData[] = [
     {
         id: 2,
         title: "Сплав по бурной реке",
-        description: "Проложите маршрут вашего сплава. Выберите, где сделать привал, а где преодолеть пороги.",
-        component: <RouteBuilder />
+        description: "Ущелье Дарданеллы славится своими порогами. Почувствуй драйв и проверь себя на прочность. Наведи курсор на блок, чтобы начать сплав!",
+        component: <RowerAnimation /> // Вставили наш компонент!
     },
     {
         id: 3,
