@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Box, IconButton, Typography, Stack, Button } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { motion, AnimatePresence } from 'framer-motion';
+
+import dardanelliImg from '../../../images/gallery/dardanelli.jpg';
+import raftingImg from '../../../images/gallery/rafting.jpg';
+import friendsImg from '../../../images/gallery/friends.jpg';
 
 interface SlideData {
     id: number;
@@ -16,7 +20,7 @@ const slides: SlideData[] = [
     {
         id: 1,
         // Картинка: Красивое горное ущелье/скалы
-        image: 'https://images.unsplash.com/photo-1522163723043-478ef79a5bb4?q=80&w=1920&auto=format&fit=crop',
+        image: dardanelliImg,
         title: 'Горящий тур в Ущелье Дарданеллы',
         subtitle: 'Один день, который изменит твои выходные. Успей забронировать место!',
         buttonText: 'Хочу в тур'
@@ -24,14 +28,14 @@ const slides: SlideData[] = [
     {
         id: 2,
         // Картинка: Драйв, сплав по реке / активный отдых
-        image: 'https://images.unsplash.com/photo-1533240332313-0cb49ece3725?q=80&w=1920&auto=format&fit=crop',
+        image: raftingImg,
         title: 'Сегодня — приключения',
         subtitle: 'Сплавы, скалы и дикая природа. Идеально для тех, кто не любит сидеть на диване.',
     },
     {
         id: 3,
         // Картинка: Группа молодых людей на вершине, эмоции
-        image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920&auto=format&fit=crop',
+        image: friendsImg,
         title: 'Завтра — воспоминания',
         subtitle: 'Бросай рутину! Погнали за настоящим драйвом и новыми знакомствами.',
     }
@@ -39,16 +43,43 @@ const slides: SlideData[] = [
 
 const Gallery: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const timerRef = useRef<NodeJS.Timeout | null>(null); // Храним ID таймера
 
-    const handleNext = () => setCurrentIndex((prev) => (prev + 1 === slides.length ? 0 : prev + 1));
-    const handlePrev = () => setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            handleNext();
-        }, 5000);
-        return () => clearInterval(timer);
+    // Функция для сброса таймера
+    const resetTimer = useCallback(() => {
+        // 1. Очищаем старый таймер, если он есть
+        if (timerRef.current) {
+            clearInterval(timerRef.current);
+        }
+        // 2. Создаем новый таймер (поставил 8 секунд, как ты просил)
+        timerRef.current = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1 === slides.length ? 0 : prev + 1));
+        }, 6000);
     }, []);
+
+    // При монтировании запускаем таймер
+    useEffect(() => {
+        resetTimer();
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current);
+        };
+    }, [resetTimer]);
+
+    // Обработчики теперь сбрасывают таймер
+    const handleNext = () => {
+        setCurrentIndex((prev) => (prev + 1 === slides.length ? 0 : prev + 1));
+        resetTimer(); // Сброс!
+    };
+
+    const handlePrev = () => {
+        setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+        resetTimer(); // Сброс!
+    };
+
+    const handleDotClick = (index: number) => {
+        setCurrentIndex(index);
+        resetTimer(); // Сброс!
+    };
 
     return (
         <Box sx={{ position: 'relative', height: { xs: '70vh', md: '85vh' }, width: '100%', overflow: 'hidden', bgcolor: 'black' }}>
@@ -58,7 +89,7 @@ const Gallery: React.FC = () => {
                     initial={{ opacity: 0, scale: 1.05 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 1 }}
                     style={{
                         position: 'absolute',
                         top: 0,
@@ -113,7 +144,7 @@ const Gallery: React.FC = () => {
                 {slides.map((_, index) => (
                     <Box
                         key={index}
-                        onClick={() => setCurrentIndex(index)}
+                        onClick={() => handleDotClick(index)}
                         sx={{
                             width: 12, height: 12, borderRadius: '50%',
                             bgcolor: index === currentIndex ? 'secondary.main' : 'rgba(255,255,255,0.5)',
