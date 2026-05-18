@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Typography } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import reviewsData from '../../data/reviews.json';
+import '../../styles/reviews.css'; // Проверь правильность пути
 
 const ReviewsSection: React.FC = () => {
     const reviews = reviewsData.reviews;
