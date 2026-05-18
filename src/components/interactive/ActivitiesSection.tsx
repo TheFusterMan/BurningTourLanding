@@ -1,0 +1,63 @@
+import React from 'react';
+import { Container, Typography, Box } from '@mui/material';
+import ActivityCard from './ActivityCard';
+
+// Временные заглушки
+const DressMeUp: React.FC = () => <div>👕 Интерактив: Одень туриста</div>;
+const RouteBuilder: React.FC = () => <div>🗺️ Интерактив: Построй маршрут</div>;
+const Hikker: React.FC = () => <div>🚶 Интерактив: Анимация при наведении</div>;
+
+// 1. Описываем тип для одной активности
+interface ActivityData {
+    id: number;
+    title: string;
+    description: string;
+    component: React.ReactNode;
+}
+
+// 2. Типизируем массив данных
+const activitiesData: ActivityData[] = [
+    {
+        id: 1,
+        title: "Подготовка к походу",
+        description: "Соберите своего персонажа в тур. Выберите правильную экипировку: палатку, спальник и одежду по погоде. Если возьмете шлепанцы в горы — он вам всё выскажет!",
+        component: <DressMeUp />
+    },
+    {
+        id: 2,
+        title: "Сплав по бурной реке",
+        description: "Проложите маршрут вашего сплава. Выберите, где сделать привал, а где преодолеть пороги.",
+        component: <RouteBuilder />
+    },
+    {
+        id: 3,
+        title: "Восхождение на вершину",
+        description: "Преодолейте горный перевал. Насладитесь видами и чистым воздухом на высоте 2000 метров.",
+        component: <Hikker />
+    }
+];
+
+const ActivitiesSection: React.FC = () => {
+    return (
+        <Box sx={{ py: 10, bgcolor: 'background.default' }}>
+            <Container maxWidth="lg">
+                <Typography variant="h3" align="center" gutterBottom sx={{ mb: 8, fontWeight: 'bold' }}>
+                    Что вас ждет в туре
+                </Typography>
+
+                {activitiesData.map((activity, index) => (
+                    <ActivityCard
+                        key={activity.id}
+                        title={activity.title}
+                        description={activity.description}
+                        isReversed={index % 2 !== 0}
+                    >
+                        {activity.component}
+                    </ActivityCard>
+                ))}
+            </Container>
+        </Box>
+    );
+};
+
+export default ActivitiesSection;
