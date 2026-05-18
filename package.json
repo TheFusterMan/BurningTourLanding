@@ -2,6 +2,7 @@
   "name": "practicum_mui",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://TheFusterMan.github.io/BurningTourLanding",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -21,7 +22,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -42,11 +45,6 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^25.8.0",
-    "ajv": "^8.12.0",
-    "ajv-keywords": "^5.1.0"
+    "gh-pages": "^6.3.0"
   }
 }
