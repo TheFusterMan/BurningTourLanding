@@ -1,0 +1,1 @@
+Burning tour landing page for NaIT lecture 20.05.2026
