@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/BurningTourLanding/static/css/main.70581b6f.css",
-    "main.js": "/BurningTourLanding/static/js/main.7b744d46.js",
+    "main.js": "/BurningTourLanding/static/js/main.453ff3dc.js",
     "static/media/rafting.jpg": "/BurningTourLanding/static/media/rafting.cc4255e3781dcad4b0c7.jpg",
     "static/media/dardanelli.jpg": "/BurningTourLanding/static/media/dardanelli.28434dc0057592a8a57b.jpg",
     "static/media/friends.jpg": "/BurningTourLanding/static/media/friends.4f6cfea842e12fd070e6.jpg",
     "index.html": "/BurningTourLanding/index.html",
     "main.70581b6f.css.map": "/BurningTourLanding/static/css/main.70581b6f.css.map",
-    "main.7b744d46.js.map": "/BurningTourLanding/static/js/main.7b744d46.js.map"
+    "main.453ff3dc.js.map": "/BurningTourLanding/static/js/main.453ff3dc.js.map"
   },
   "entrypoints": [
     "static/css/main.70581b6f.css",
-    "static/js/main.7b744d46.js"
+    "static/js/main.453ff3dc.js"
   ]
 }
