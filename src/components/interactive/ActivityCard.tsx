@@ -44,7 +44,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ title, description, isRever
                 sx={{
                     width: { xs: '100%', md: '55%' },
                     // Увеличиваем высоту на мобилках до 350px, чтобы влез и человечек, и гардероб
-                    height: { xs: 350, md: '100%' },
+                    height: { xs: 400, md: '100%' },
                     position: { xs: 'relative', md: 'absolute' },
                     right: { md: isReversed ? 'auto' : 0 },
                     left: { md: isReversed ? 0 : 'auto' },
