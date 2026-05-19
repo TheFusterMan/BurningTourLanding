@@ -1,15 +1,13 @@
 import React from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import ActivityCard from './ActivityCard';
-
 import RowerAnimation from './RowerAnimation';
+import RouteBuilder from './RouteBuilder';
 
 // Временные заглушки
 const DressMeUp: React.FC = () => <div>👕 Интерактив: Одень туриста</div>;
-const RouteBuilder: React.FC = () => <div>🗺️ Интерактив: Построй маршрут</div>;
 const Hikker: React.FC = () => <div>🚶 Интерактив: Анимация при наведении</div>;
 
-// 1. Описываем тип для одной активности
 interface ActivityData {
     id: number;
     title: string;
@@ -17,25 +15,24 @@ interface ActivityData {
     component: React.ReactNode;
 }
 
-// 2. Типизируем массив данных
 const activitiesData: ActivityData[] = [
     {
         id: 1,
-        title: "Подготовка к походу",
-        description: "Соберите своего персонажа в тур. Выберите правильную экипировку: палатку, спальник и одежду по погоде. Если возьмете шлепанцы в горы — он вам всё выскажет!",
+        title: "🎒 Подготовка к походу",
+        description: "Соберите своего персонажа в тур. Выберите правильную экипировку: палатку, спальник и одежду по погоде.",
         component: <DressMeUp />
     },
     {
         id: 2,
-        title: "Сплав по бурной реке",
+        title: "🚣 Сплав по бурной реке",
         description: "Ущелье Дарданеллы славится своими порогами. Почувствуй драйв и проверь себя на прочность. Наведи курсор на блок, чтобы начать сплав!",
-        component: <RowerAnimation /> // Вставили наш компонент!
+        component: <RowerAnimation />
     },
     {
         id: 3,
-        title: "Восхождение на вершину",
-        description: "Преодолейте горный перевал. Насладитесь видами и чистым воздухом на высоте 2000 метров.",
-        component: <Hikker />
+        title: "🗺️ Построй свой маршрут",
+        description: "Выбирай точки в правильном порядке! Пройди все остановки от старта до финиша.",
+        component: <RouteBuilder />
     }
 ];
 
