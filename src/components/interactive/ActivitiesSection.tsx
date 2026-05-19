@@ -1,14 +1,12 @@
 import React from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import ActivityCard from './ActivityCard';
-
 import RowerAnimation from './RowerAnimation';
 import DressMeUp from './DressMeUp';
 
 // Временные заглушки
 const RouteBuilder: React.FC = () => <div>🗺️ Интерактив: Построй маршрут</div>;
 
-// 1. Описываем тип для одной активности
 interface ActivityData {
     id: number;
     title: string;
@@ -16,19 +14,18 @@ interface ActivityData {
     component: React.ReactNode;
 }
 
-// 2. Типизируем массив данных
 const activitiesData: ActivityData[] = [
     {
         id: 1,
-        title: "Подготовка к походу",
-        description: "Соберите своего персонажа в тур. Выберите правильную экипировку: палатку, спальник и одежду по погоде. Если возьмете шлепанцы в горы — он вам всё выскажет!",
+        title: "🎒 Подготовка к походу",
+        description: "Соберите своего персонажа в тур. Выберите правильную экипировку: палатку, спальник и одежду по погоде.",
         component: <DressMeUp />
     },
     {
         id: 2,
-        title: "Сплав по бурной реке",
+        title: "🚣 Сплав по бурной реке",
         description: "Ущелье Дарданеллы славится своими порогами. Почувствуй драйв и проверь себя на прочность. Наведи курсор на блок, чтобы начать сплав!",
-        component: <RowerAnimation /> // Вставили наш компонент!
+        component: <RowerAnimation />
     },
     {
         id: 3,
