@@ -2,11 +2,10 @@ import React from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import ActivityCard from './ActivityCard';
 import RowerAnimation from './RowerAnimation';
-import RouteBuilder from './RouteBuilder';
+import DressMeUp from './DressMeUp';
 
 // Временные заглушки
-const DressMeUp: React.FC = () => <div>👕 Интерактив: Одень туриста</div>;
-const Hikker: React.FC = () => <div>🚶 Интерактив: Анимация при наведении</div>;
+const RouteBuilder: React.FC = () => <div>🗺️ Интерактив: Построй маршрут</div>;
 
 interface ActivityData {
     id: number;
@@ -30,8 +29,8 @@ const activitiesData: ActivityData[] = [
     },
     {
         id: 3,
-        title: "🗺️ Построй свой маршрут",
-        description: "Выбирай точки в правильном порядке! Пройди все остановки от старта до финиша.",
+        title: "Восхождение на вершину",
+        description: "Преодолейте горный перевал. Насладитесь видами и чистым воздухом на высоте 2000 метров.",
         component: <RouteBuilder />
     }
 ];

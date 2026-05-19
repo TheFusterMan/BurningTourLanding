@@ -16,6 +16,10 @@ interface SlideData {
     buttonText?: string;
 }
 
+interface GalleryProps {
+    onOpenModal: () => void;
+}
+
 const slides: SlideData[] = [
     {
         id: 1,
@@ -41,7 +45,7 @@ const slides: SlideData[] = [
     }
 ];
 
-const Gallery: React.FC = () => {
+const Gallery: React.FC<GalleryProps> = ({ onOpenModal }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const timerRef = useRef<NodeJS.Timeout | null>(null); // Храним ID таймера
 
@@ -123,7 +127,13 @@ const Gallery: React.FC = () => {
 
                         {/* Кнопка действия (Call to action) */}
                         {slides[currentIndex].buttonText && (
-                            <Button variant="contained" color="secondary" size="large" sx={{ py: 1.5, px: 4, fontSize: '1.2rem', fontWeight: 'bold', borderRadius: 8, textTransform: 'none' }}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                size="large"
+                                onClick={onOpenModal} // ВЕШАЕМ КЛИК СЮДА
+                                sx={{ py: 1.5, px: 4, fontSize: '1.2rem', fontWeight: 'bold', borderRadius: 8, textTransform: 'none' }}
+                            >
                                 {slides[currentIndex].buttonText}
                             </Button>
                         )}

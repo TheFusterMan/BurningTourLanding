@@ -9,6 +9,9 @@ import {
     useScrollTrigger
 } from '@mui/material';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+interface HeaderProps {
+    onOpenModal: () => void;
+}
 
 // Специальный компонент MUI для добавления тени при скролле
 interface Props {
@@ -33,7 +36,7 @@ function ElevationScroll(props: Props) {
     } as any);
 }
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
 
     // Функция для плавного скролла к секциям
     const scrollToSection = (id: string) => {
@@ -74,6 +77,7 @@ const Header: React.FC = () => {
                             variant="contained"
                             color="secondary"
                             endIcon={<LocalFireDepartmentIcon />}
+                            onClick={onOpenModal}
                             sx={{
                                 fontWeight: 'bold',
                                 borderRadius: 8,
