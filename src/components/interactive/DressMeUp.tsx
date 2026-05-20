@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Fade } from '@mui/material';
+import { Box, Typography, Fade, Button } from '@mui/material';
 import { motion, PanInfo } from 'framer-motion';
 
 type TopGear = 'none' | 'tshirt' | 'jacket';
@@ -9,13 +9,16 @@ type BottomGear = 'none' | 'shorts' | 'pants';
 
 export interface InteractiveElementProps {
     isHovered?: boolean;
+    onOpenModal: () => void;
 }
 
-const DressMeUp: React.FC<InteractiveElementProps> = ({ isHovered }) => {
+const DressMeUp: React.FC<InteractiveElementProps> = ({ isHovered, onOpenModal }) => {
     const [top, setTop] = useState<TopGear>('none');
     const [shoes, setShoes] = useState<FootGear>('none');
     const [head, setHead] = useState<HeadGear>('none');
     const [bottom, setBottom] = useState<BottomGear>('none');
+
+    const isPerfectlyDressed = top === 'tshirt' && shoes === 'boots' && head === 'sunhat' && bottom === 'pants';
 
     const getSpeechBubble = () => {
         if (head === 'ushanka' && bottom === 'shorts') return "Шорты и ушанка? Закаляем уши, греем ноги? Что за стиль уличного фрика? 🤪";
@@ -73,7 +76,7 @@ const DressMeUp: React.FC<InteractiveElementProps> = ({ isHovered }) => {
             width: '100%', height: '100%',
             display: 'flex', flexDirection: 'row',
             alignItems: 'center', justifyContent: 'space-evenly',
-            p: { xs: 1, md: 3 }, position: 'relative'
+            p: { xs: 1, md: 3 }, position: 'relative', translate: { xs: "0", md: "8%" }
         }}>
 
             {/* ЛЕВАЯ ЧАСТЬ: Персонаж */}
@@ -83,7 +86,7 @@ const DressMeUp: React.FC<InteractiveElementProps> = ({ isHovered }) => {
                     <Box sx={{
                         position: 'absolute', top: -45, left: { xs: -15, md: -30 }, right: { xs: -50, md: -40 }, zIndex: 10,
                         bgcolor: 'white', p: 1, borderRadius: 2, boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                        border: '2px solid #2e7d32', pointerEvents: 'none',
+                        border: '2px solid #2e7d32', pointerEvents: 'none', translate: { xs: '0', md: '0 20%' },
                         '&::after': {
                             content: '""', position: 'absolute', bottom: -8, left: 45,
                             borderWidth: '8px 8px 0', borderStyle: 'solid', borderColor: '#2e7d32 transparent', display: 'block', width: 0
@@ -198,60 +201,93 @@ const DressMeUp: React.FC<InteractiveElementProps> = ({ isHovered }) => {
 
             </Box>
 
-            {/* ПРАВАЯ ЧАСТЬ: Гардероб (Сетка 2x4) */}
+            {/* ПРАВАЯ ЧАСТЬ: Гардероб + Кнопка (в одном контейнере-колонке) */}
             <Box sx={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: { xs: 0.8, md: 1.5 },
-                zIndex: 10
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                zIndex: 10,
+                ml: { xs: 1, md: 3 } // Отступ от человечка
             }}>
+                {/* СЕТКА ГАРДЕРОБА */}
+                <Box sx={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: { xs: 0.8, md: 1.5 },
+                    mb: 1.5 // Отступ снизу перед кнопкой
+                }}>
 
-                <DraggableItem type="top" value="tshirt" label="Футболка">
-                    <svg viewBox="0 0 100 100" width="26" height="26"><path d="M 20 20 L 80 20 L 90 50 L 70 50 L 70 90 L 30 90 L 30 50 L 10 50 Z" fill="#ff9800" /></svg>
-                </DraggableItem>
+                    <DraggableItem type="top" value="tshirt" label="Футболка">
+                        <svg viewBox="0 0 100 100" width="26" height="26"><path d="M 20 20 L 80 20 L 90 50 L 70 50 L 70 90 L 30 90 L 30 50 L 10 50 Z" fill="#ff9800" /></svg>
+                    </DraggableItem>
 
-                <DraggableItem type="top" value="jacket" label="Пуховик">
-                    <svg viewBox="0 0 100 100" width="26" height="26">
-                        <path d="M 15 15 L 85 15 L 95 60 L 75 75 L 75 95 L 25 95 L 25 75 L 5 60 Z" fill="#e53935" />
-                        <line x1="50" y1="20" x2="50" y2="95" stroke="#b71c1c" strokeWidth="4" />
-                    </svg>
-                </DraggableItem>
+                    <DraggableItem type="top" value="jacket" label="Пуховик">
+                        <svg viewBox="0 0 100 100" width="26" height="26">
+                            <path d="M 15 15 L 85 15 L 95 60 L 75 75 L 75 95 L 25 95 L 25 75 L 5 60 Z" fill="#e53935" />
+                            <line x1="50" y1="20" x2="50" y2="95" stroke="#b71c1c" strokeWidth="4" />
+                        </svg>
+                    </DraggableItem>
 
-                <DraggableItem type="bottom" value="shorts" label="Шорты">
-                    <svg viewBox="0 0 100 100" width="26" height="26"><path d="M 15 20 L 85 20 L 90 70 L 55 70 L 55 45 L 45 45 L 45 70 L 10 70 Z" fill="#0288d1" /></svg>
-                </DraggableItem>
+                    <DraggableItem type="bottom" value="shorts" label="Шорты">
+                        <svg viewBox="0 0 100 100" width="26" height="26"><path d="M 15 20 L 85 20 L 90 70 L 55 70 L 55 45 L 45 45 L 45 70 L 10 70 Z" fill="#0288d1" /></svg>
+                    </DraggableItem>
 
-                <DraggableItem type="bottom" value="pants" label="Штаны">
-                    <svg viewBox="0 0 100 100" width="26" height="26"><path d="M 15 15 L 85 15 L 90 95 L 55 95 L 55 45 L 45 45 L 45 95 L 10 95 Z" fill="#546e7a" /></svg>
-                </DraggableItem>
+                    <DraggableItem type="bottom" value="pants" label="Штаны">
+                        <svg viewBox="0 0 100 100" width="26" height="26"><path d="M 15 15 L 85 15 L 90 95 L 55 95 L 55 45 L 45 45 L 45 95 L 10 95 Z" fill="#546e7a" /></svg>
+                    </DraggableItem>
 
-                <DraggableItem type="shoes" value="boots" label="Ботинки">
-                    <svg viewBox="0 0 100 100" width="26" height="26"><path d="M 20 50 L 80 50 L 90 90 L 10 90 Z" fill="#5d4037" /></svg>
-                </DraggableItem>
+                    <DraggableItem type="shoes" value="boots" label="Ботинки">
+                        <svg viewBox="0 0 100 100" width="26" height="26"><path d="M 20 50 L 80 50 L 90 90 L 10 90 Z" fill="#5d4037" /></svg>
+                    </DraggableItem>
 
-                <DraggableItem type="shoes" value="slippers" label="Шлепки">
-                    <svg viewBox="0 0 100 100" width="26" height="26">
-                        <rect x="15" y="70" width="30" height="10" rx="5" fill="#26c6da" />
-                        <rect x="55" y="70" width="30" height="10" rx="5" fill="#26c6da" />
-                    </svg>
-                </DraggableItem>
+                    <DraggableItem type="shoes" value="slippers" label="Шлепки">
+                        <svg viewBox="0 0 100 100" width="26" height="26">
+                            <rect x="15" y="70" width="30" height="10" rx="5" fill="#26c6da" />
+                            <rect x="55" y="70" width="30" height="10" rx="5" fill="#26c6da" />
+                        </svg>
+                    </DraggableItem>
 
-                <DraggableItem type="head" value="sunhat" label="Панама">
-                    <svg viewBox="0 0 100 100" width="26" height="26">
-                        <path d="M 10 50 L 90 50 L 70 30 L 30 30 Z" fill="#8bc34a" />
-                        <path d="M 30 30 L 70 30 L 60 10 L 40 10 Z" fill="#558b2f" />
-                    </svg>
-                </DraggableItem>
+                    <DraggableItem type="head" value="sunhat" label="Панама">
+                        <svg viewBox="0 0 100 100" width="26" height="26">
+                            <path d="M 10 50 L 90 50 L 70 30 L 30 30 Z" fill="#8bc34a" />
+                            <path d="M 30 30 L 70 30 L 60 10 L 40 10 Z" fill="#558b2f" />
+                        </svg>
+                    </DraggableItem>
 
-                <DraggableItem type="head" value="ushanka" label="Ушанка">
-                    <svg viewBox="0 0 100 100" width="26" height="26">
-                        <path d="M 25 40 L 75 40 L 75 10 L 25 10 Z" fill="#795548" />
-                        <path d="M 15 35 L 30 35 L 30 80 L 15 80 Z" fill="#5d4037" />
-                        <path d="M 70 35 L 85 35 L 85 80 L 70 80 Z" fill="#5d4037" />
-                    </svg>
-                </DraggableItem>
+                    <DraggableItem type="head" value="ushanka" label="Ушанка">
+                        <svg viewBox="0 0 100 100" width="26" height="26">
+                            <path d="M 25 40 L 75 40 L 75 10 L 25 10 Z" fill="#795548" />
+                            <path d="M 15 35 L 30 35 L 30 80 L 15 80 Z" fill="#5d4037" />
+                            <path d="M 70 35 L 85 35 L 85 80 L 70 80 Z" fill="#5d4037" />
+                        </svg>
+                    </DraggableItem>
+
+                </Box>
+
+                {/* КНОПКА-НАГРАДА ПОД СЕТКОЙ */}
+                {/* Обертка резервирует под кнопку 40px, чтобы сетка не прыгала вверх-вниз при её появлении */}
+                <Box sx={{ height: 40, width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <Fade in={isPerfectlyDressed}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={onOpenModal}
+                            sx={{
+                                fontWeight: 'bold',
+                                borderRadius: 2,
+                                fontSize: '0.8rem',
+                                px: 3,
+                                boxShadow: '0 4px 15px rgba(255, 152, 0, 0.4)',
+                                whiteSpace: 'nowrap'
+                            }}
+                        >
+                            🔥 Ты готов! В тур
+                        </Button>
+                    </Fade>
+                </Box>
 
             </Box>
+
         </Box>
     );
 };

@@ -3,9 +3,7 @@ import { Container, Typography, Box } from '@mui/material';
 import ActivityCard from './ActivityCard';
 import RowerAnimation from './RowerAnimation';
 import DressMeUp from './DressMeUp';
-
-// Временные заглушки
-const RouteBuilder: React.FC = () => <div>🗺️ Интерактив: Построй маршрут</div>;
+import RouteBuilder from "./RouteBuilder";
 
 interface ActivityData {
     id: number;
@@ -14,28 +12,32 @@ interface ActivityData {
     component: React.ReactNode;
 }
 
-const activitiesData: ActivityData[] = [
-    {
-        id: 1,
-        title: "🎒 Подготовка к походу",
-        description: "Соберите своего персонажа в тур. Выберите правильную экипировку: палатку, спальник и одежду по погоде.",
-        component: <DressMeUp />
-    },
-    {
-        id: 2,
-        title: "🚣 Сплав по бурной реке",
-        description: "Ущелье Дарданеллы славится своими порогами. Почувствуй драйв и проверь себя на прочность. Наведи курсор на блок, чтобы начать сплав!",
-        component: <RowerAnimation />
-    },
-    {
-        id: 3,
-        title: "Восхождение на вершину",
-        description: "Преодолейте горный перевал. Насладитесь видами и чистым воздухом на высоте 2000 метров.",
-        component: <RouteBuilder />
-    }
-];
+interface ActivitiesSectionProps {
+    onOpenModal: () => void;
+}
 
-const ActivitiesSection: React.FC = () => {
+const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({ onOpenModal }) => {
+    const activitiesData: ActivityData[] = [
+        {
+            id: 1,
+            title: "🎒 Подготовка к походу",
+            description: "Соберите своего персонажа в тур. Выберите правильную экипировку: палатку, спальник и одежду по погоде.",
+            component: <DressMeUp onOpenModal={onOpenModal} />
+        },
+        {
+            id: 2,
+            title: "🚣 Сплав по бурной реке",
+            description: "Ущелье Дарданеллы славится своими порогами. Почувствуй драйв и проверь себя на прочность. Наведи курсор на блок, чтобы начать сплав!",
+            component: <RowerAnimation onOpenModal={onOpenModal} />
+        },
+        {
+            id: 3,
+            title: "🏞️ Восхождение на вершину",
+            description: "Преодолейте горный перевал. Насладитесь видами и чистым воздухом на высоте 2000 метров.",
+            component: <RouteBuilder onOpenModal={onOpenModal} />
+        }
+    ];
+
     return (
         <Box sx={{ py: 10, bgcolor: 'background.default' }}>
             <Container maxWidth="lg">

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Box } from '@mui/material';
 
 interface RouteBuilderProps {
     onRouteComplete?: (route: number[]) => void;
     onPointSelect?: (pointId: number) => void;
+    onOpenModal: () => void;
 }
 
 interface RoutePoint {
@@ -22,7 +24,7 @@ const routePoints: RoutePoint[] = [
     { id: 6, name: 'Финиш', distance: 17, icon: '🏆', nextPointHint: 'Ты у цели!' },
 ];
 
-const RouteBuilder: React.FC<RouteBuilderProps> = ({ onRouteComplete, onPointSelect }) => {
+const RouteBuilder: React.FC<RouteBuilderProps> = ({ onRouteComplete, onPointSelect, onOpenModal }) => {
     const [selectedPoints, setSelectedPoints] = useState<number[]>([1]);
     const [lastSelected, setLastSelected] = useState<number>(1);
     const [showHint, setShowHint] = useState(false);
@@ -67,7 +69,11 @@ const RouteBuilder: React.FC<RouteBuilderProps> = ({ onRouteComplete, onPointSel
     };
 
     return (
-        <div style={{ padding: '16px', textAlign: 'center' }}>
+        <Box sx={{
+            padding: '16px',
+            textAlign: 'center',
+            translate: { xs: '0', md: '10%' }
+        }}>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', flexWrap: 'wrap', marginBottom: '16px' }}>
                 {routePoints.map(point => {
                     const isSelected = selectedPoints.includes(point.id);
@@ -129,27 +135,27 @@ const RouteBuilder: React.FC<RouteBuilderProps> = ({ onRouteComplete, onPointSel
                 </div>
             </div>
 
-            <button
-                style={{
-                    width: '100%',
-                    padding: '10px',
-                    backgroundColor: selectedPoints.length === routePoints.length ? '#ff9800' : '#ccc',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: selectedPoints.length === routePoints.length ? 'pointer' : 'default',
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                    transition: 'all 0.3s'
-                }}
-                disabled={selectedPoints.length !== routePoints.length}
-                onClick={() => {
-                    alert(`✅ Маршрут готов!\n📏 Дистанция: ${getTotalDistance()} км\n🎉 Ты прошёл всё ущелье!`);
-                }}
-            >
-                {selectedPoints.length === routePoints.length ? '🚀 Отправиться в путь!' : `🔒 Ещё ${routePoints.length - selectedPoints.length} точек`}
-            </button>
-        </div>
+            <div style={{display: 'flex', justifyContent: 'center', marginTop: '24px'}}>
+                <button
+                    style={{
+                        padding: '14px 32px', // Делаем кнопку пухленькой
+                        backgroundColor: selectedPoints.length === routePoints.length ? '#ff9800' : '#ccc',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '30px', // Делаем овальную форму, как везде на сайте
+                        cursor: selectedPoints.length === routePoints.length ? 'pointer' : 'default',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        transition: 'all 0.3s',
+                        boxShadow: selectedPoints.length === routePoints.length ? '0 4px 15px rgba(255, 152, 0, 0.4)' : 'none'
+                    }}
+                    disabled={selectedPoints.length !== routePoints.length}
+                    onClick={onOpenModal}
+                >
+                    {selectedPoints.length === routePoints.length ? '🚀 Отправиться в путь!' : `🔒 Ещё ${routePoints.length - selectedPoints.length} точек`}
+                </button>
+            </div>
+        </Box>
     );
 };
 
